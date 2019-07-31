@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_trip/Dao/home_dao.dart';
 import 'package:flutter_trip/models/home_data.dart';
+import 'package:flutter_trip/widgets/grid_nav.dart';
 import 'package:flutter_trip/widgets/local_nav.dart';
 
 class HomePage extends StatefulWidget {
@@ -41,11 +42,13 @@ class _HomePageState extends State<HomePage> {
 
   String _resultData = '';
   List<CommonModel> localNavData = [];
+  GridNav gridNavModel;
   void loadData() async {
       HomeDao.fetch().then((HomeModel homeModel){
         setState(() {
           //_resultData = jsonEncode(homeModel);
           localNavData = homeModel.localNavList;
+          gridNavModel = homeModel.gridNav;
         });
       }).catchError((error){
         print(error);
@@ -84,6 +87,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   LocalNav(data: localNavData,),
+                  GridNavView(gridNavModel: gridNavModel,),
                   Text('show result',),
                 ],
               ),
